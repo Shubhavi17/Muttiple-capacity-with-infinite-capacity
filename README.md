@@ -22,44 +22,43 @@ Queuing are the most frequently encountered problems in everyday life. For examp
 
 ## Program
 ```
-# Given data
-mean_interarrival_time = 10  # seconds
-mean_service_time_lathe = 1  # seconds
-mean_service_time_robot = 7  # seconds
-
-# Calculate arrival rate (λ)
-arrival_rate = 1 / mean_interarrival_time
-
-# Calculate service rate for lathe machines (μ)
-service_rate_lathe = 1 / mean_service_time_lathe
-
-# Calculate service rate for robot (μ)
-service_rate_robot = 1 / mean_service_time_robot
-
-# Check if the system is stable (λ < μ)
-if arrival_rate >= (service_rate_lathe + service_rate_robot):
-    print("The system is unstable. Arrival rate is greater than or equal to service rate.")
+import math
+arr_time=float(input("Enter the mean inter arrival time of objects from Feeder (in secs): "))
+ser_time=float(input("Enter the mean  inter service time of Lathe Machine (in secs) :  "))
+Robot_time=float(input("Enter the Additional time taken for the Robot (in secs) :  "))
+c=int(input("Number of service centre :  "))
+lam=1/arr_time
+mu=1/(ser_time+Robot_time)
+print("--------------------------------------------------------------")
+print("Multiple Server with Infinite Capacity - (M/M/c):(oo/FIFO)")
+print("--------------------------------------------------------------")
+print("The mean arrival rate per second : %0.2f "%lam)
+print("The mean service rate per second : %0.2f "%mu)
+rho=lam/(c*mu)
+sum=(lam/mu)**c*(1/(1-rho))/math.factorial(c)
+for i in range(0,c):
+    sum=sum+(lam/mu)**i/math.factorial(i)
+P0=1/sum
+if (rho<1):
+    Lq=(P0/math.factorial(c))*(1/c)*(lam/mu)**(c+1)/(1-rho)**2
+    Ls=Lq+lam/mu
+    Ws=Ls/lam
+    Wq=Lq/lam
+    print("Average number of objects in the system : %0.2f "%Ls)
+    print("Average number of objects in the conveyor :  %0.2f "%Lq)
+    print("Average waiting time of an object in the system : %0.2f secs"%Ws)
+    print("Average waiting time of an object in the conveyor : %0.2f secs"%Wq)
+    print("Probability that the system is busy : %0.2f "%(rho))
+    print("Probability that the system is empty : %0.2f "%(1-rho))
 else:
-    # Calculate average number of materials in the system (L)
-    L = arrival_rate / (service_rate_lathe + service_rate_robot - arrival_rate)
-
-    # Calculate average number of materials in the conveyor (Lq)
-    Lq = (arrival_rate ** 2) / (service_rate_lathe + service_rate_robot) / (service_rate_lathe + service_rate_robot - arrival_rate)
-
-    # Calculate waiting time of each material in the system (W)
-    W = 1 / (service_rate_lathe + service_rate_robot - arrival_rate)
-
-    # Calculate waiting time of each material in the conveyor (Wq)
-    Wq = arrival_rate / ((service_rate_lathe + service_rate_robot) * (service_rate_lathe + service_rate_robot - arrival_rate))
-
-    print("Average number of materials in the system (L):", L)
-    print("Average number of materials in the conveyor (Lq):", Lq)
-    print("Waiting time of each material in the system (W):", W)
-    print("Waiting time of each material in the conveyor (Wq):", Wq)
+    print("Warning! Objects Over flow will happen in the conveyor")
+print("--------------------------------------------------------------")
 ```
 
+
 ## Output :
-![Screenshot 2024-03-29 201905](https://github.com/Shubhavi17/Muttiple-capacity-with-infinite-capacity/assets/150005085/df44b0e7-2aa3-4f72-ba32-e88f0d596e19)
+![Screenshot 2024-03-29 202605](https://github.com/Shubhavi17/Muttiple-capacity-with-infinite-capacity/assets/150005085/f62c16e8-1d9e-4394-adb0-d75aaad398dc)
+
 
 
 ## Result : 
